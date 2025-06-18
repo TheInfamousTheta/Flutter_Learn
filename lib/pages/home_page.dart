@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_learn/widgets/app_bar.dart';
-import 'package:flutter_learn/widgets/home_page_info_tile.dart';
-import 'package:flutter_learn/widgets/home_page_tabs.dart';
+import 'package:flutter_learn/widgets/home_page_widgets/home_page_app_bar.dart';
+import 'package:flutter_learn/widgets/home_page_widgets/home_page_info_tile.dart';
+import 'package:flutter_learn/widgets/home_page_widgets/home_page_tabs.dart';
 
 class HomePage extends StatelessWidget {
   int selected = 0;
   static const List _tabs = ['Tech', 'Sports', 'Cinema'];
+
+  HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
