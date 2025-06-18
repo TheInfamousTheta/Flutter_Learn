@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_learn/pages/profile_screen.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   const MyAppBar({super.key, required this.appBar});
+
   final AppBar appBar;
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -24,7 +27,12 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
             child: InkWell(
               borderRadius: BorderRadius.circular(999),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfileScreen()),
+                );
+              },
               child: CircleAvatar(
                 backgroundImage: AssetImage('lib/placeholders/Amogh.jpg'),
               ),

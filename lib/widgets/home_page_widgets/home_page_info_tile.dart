@@ -7,11 +7,8 @@ class HomePageInfoTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => DetailScreen()),
-        );
+      onTap: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context) => DetailScreen(),));
       },
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
