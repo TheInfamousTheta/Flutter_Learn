@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_learn/widgets/bottom_navigation_bar.dart';
 import 'package:flutter_learn/widgets/home_page_widgets/home_page_app_bar.dart';
 import 'package:flutter_learn/widgets/home_page_widgets/home_page_info_tile.dart';
 import 'package:flutter_learn/widgets/home_page_widgets/home_page_tabs.dart';
 
 class HomePage extends StatelessWidget {
-  int selected = 0;
+  static int selected = 0;
   static const List _tabs = ['Tech', 'Sports', 'Cinema'];
 
   HomePage({super.key});
@@ -22,7 +23,7 @@ class HomePage extends StatelessWidget {
               height: 60,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: 3,
+                itemCount: _tabs.length,
                 itemBuilder: (context, index) {
                   return HomePageTabs(title: _tabs[index],state:selected,index: index,);
                 },
@@ -39,16 +40,7 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
-        unselectedItemColor: Colors.black45,
-        selectedItemColor: Colors.black,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Saved'),
-        ],
-      ),
+      bottomNavigationBar: MyBottomNavigationBar(),
     );
   }
 }

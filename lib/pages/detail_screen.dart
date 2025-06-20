@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_learn/widgets/bottom_navigation_bar.dart';
 
 class DetailScreen extends StatelessWidget {
   const DetailScreen({super.key});
@@ -121,16 +122,7 @@ class DetailScreen extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
-        unselectedItemColor: Colors.black45,
-        selectedItemColor: Colors.black,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Saved'),
-        ],
-      ),
+      bottomNavigationBar:MyBottomNavigationBar(),
     );
   }
 }
