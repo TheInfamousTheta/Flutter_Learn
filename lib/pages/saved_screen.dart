@@ -9,7 +9,40 @@ class SavedScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: MyAppBar(appBar: AppBar()),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leadingWidth: 70,
+        centerTitle: true,
+        leading: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
+          child: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Container(
+              height: 35,
+              width: 35,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(999),
+              ),
+              child: Image.asset('lib/icons/img.png', fit: BoxFit.cover),
+            ),
+          ),
+        ),
+        title: Text(
+          'NewsApp',
+          style: TextStyle(fontSize: 42, fontWeight: FontWeight.bold),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+            child: IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.favorite),
+            ),
+          ),
+        ],
+      ),
       bottomNavigationBar: MyBottomNavigationBar(),
     );
   }
