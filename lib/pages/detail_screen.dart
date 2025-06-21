@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_learn/widgets/bottom_navigation_bar.dart';
 
 class DetailScreen extends StatelessWidget {
-  const DetailScreen({super.key});
+  var data;
+
+  DetailScreen({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -50,13 +52,16 @@ class DetailScreen extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(16),
-                  child: Image.asset('lib/placeholders/funny_minion.jpg'),
+                  child:
+                      data['urlToImage'] != null
+                          ? Image.network(data['urlToImage'])
+                          : Image.asset('lib/placeholders/funny_minion.jpg'),
                 ),
                 Container(
                   height: 200,
                   alignment: Alignment(-.85, -.85),
                   child: Text(
-                    'placeholder source',
+                    data['source']['name'] ?? '',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,
@@ -75,7 +80,7 @@ class DetailScreen extends StatelessWidget {
               alignment: Alignment.topLeft,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: Text(
-                'placeholder title  f f f f f f  f f f  f f  f',
+                data['title'],
                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 24),
               ),
             ), //Title
@@ -86,7 +91,7 @@ class DetailScreen extends StatelessWidget {
                     alignment: Alignment.topLeft,
                     padding: EdgeInsets.symmetric(horizontal: 16),
                     child: Text(
-                      'Have you ever dreamed of having Superman’s power of “X-Ray Vision,” or the ability to see through solid objects? While it is uncertain if this superpower was their motivation, medical researchers and physical scientists in the 1970s were able to turn this dre…',
+                      data['description'] ?? '',
                       style: TextStyle(
                         color: Colors.black38,
                         fontSize: 17,
@@ -98,12 +103,12 @@ class DetailScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'writer',
+                    data['author'] ?? '',
                     style: TextStyle(
                       color: Colors.black38,
                       fontWeight: FontWeight.bold,
@@ -122,7 +127,7 @@ class DetailScreen extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar:MyBottomNavigationBar(),
+      bottomNavigationBar: MyBottomNavigationBar(),
     );
   }
 }

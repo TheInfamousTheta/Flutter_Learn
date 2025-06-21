@@ -2,13 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_learn/pages/detail_screen.dart';
 
 class HomePageInfoTile extends StatelessWidget {
-  const HomePageInfoTile({super.key});
+  final data;
+
+  const HomePageInfoTile({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => DetailScreen(),));
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => DetailScreen(data: data)),
+        );
       },
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -19,13 +24,16 @@ class HomePageInfoTile extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(16),
-                  child: Image.asset('lib/placeholders/funny_minion.jpg'),
+                  child:
+                      data['urlToImage'] != null
+                          ? Image.network(data['urlToImage'])
+                          : Image.asset('lib/placeholders/funny_minion.jpg'),
                 ),
                 Container(
-                  height: 200,
-                  alignment: Alignment(-.9, -.925),
+                  height: 33,
+                  alignment: Alignment(-.9, 1),
                   child: Text(
-                    'placeholder source',
+                    data['source']['name'] ?? '',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 20,
@@ -41,7 +49,7 @@ class HomePageInfoTile extends StatelessWidget {
             child: Container(
               alignment: Alignment.topLeft,
               child: Text(
-                'placeholder titlef f  f f f  f f  f f  f f  f',
+                data['title'] ?? '',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
               ),
             ),
@@ -52,7 +60,7 @@ class HomePageInfoTile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'writer',
+                  data['author'] ?? '',
                   style: TextStyle(
                     color: Colors.black38,
                     fontWeight: FontWeight.bold,
