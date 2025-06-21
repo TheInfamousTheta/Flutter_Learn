@@ -59,15 +59,19 @@ class HomePageInfoTile extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  data['author'] ?? '',
-                  style: TextStyle(
-                    color: Colors.black38,
-                    fontWeight: FontWeight.bold,
+                SizedBox(
+                  width:150,
+                  child: Text(
+                    data['author'] ?? '',
+                    style: TextStyle(
+                      overflow: TextOverflow.ellipsis,
+                      color: Colors.black38,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 Text(
-                  'time elapsed',
+                  timeElapsed(data['publishedAt']),
                   style: TextStyle(
                     color: Colors.black38,
                     fontWeight: FontWeight.bold,
@@ -79,5 +83,19 @@ class HomePageInfoTile extends StatelessWidget {
         ],
       ),
     );
+  }
+  String timeElapsed(String date_time){
+    final diff = DateTime.now().toUtc().difference(DateTime.parse(date_time));
+    if(diff.inDays>0){
+      return '${diff.inDays} days ago';
+    }
+    else{
+      if(diff.inHours>0) {
+        return '${diff.inHours} hours ago';
+      }
+      else{
+        return'${diff.inMinutes} minutes ago';
+      }
+    }
   }
 }

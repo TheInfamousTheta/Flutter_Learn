@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_learn/widgets/bottom_navigation_bar.dart';
 import 'package:flutter_learn/widgets/home_page_widgets/home_page_app_bar.dart';
-import 'package:flutter_learn/widgets/home_page_widgets/home_page_info_tile.dart';
+import 'package:flutter_learn/widgets/info_tile.dart';
 import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
@@ -15,7 +15,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   static String selected = 'Technology';
-  static const List TABS = ['Technology', 'Sports', 'Entertainment'];
+  static const List TABS = ['Technology', 'Sports', 'Entertainment', 'Health'];
   var Body;
 
   @override
@@ -102,7 +102,6 @@ class _HomePageState extends State<HomePage> {
       ),
     );
     final body = jsonDecode(response.body);
-    print(body.runtimeType);
     setState(() {
       Body = body;
     });
