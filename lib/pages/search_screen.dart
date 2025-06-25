@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_learn/widgets/bottom_navigation_bar.dart';
 import 'package:flutter_learn/widgets/info_tile.dart';
 import 'package:http/http.dart' as http;
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+
 class SearchScreen extends StatefulWidget {
   SearchScreen({super.key});
 
@@ -13,9 +15,10 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   String search_text = '';
   var Body;
-  
+  var isLoading = false;
+
   @override
-  void initState(){
+  void initState() {
     super.initState();
     initialFetch();
   }
@@ -73,7 +76,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       border: Border.all(color: Colors.black, width: 2),
                     ),
                     child: TextField(
-                      onChanged: (value) => search_text=value,
+                      onChanged: (value) => search_text = value,
                       onTapOutside: (value) {
                         FocusScope.of(context).requestFocus(FocusNode());
                       },
@@ -93,7 +96,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   padding: const EdgeInsets.fromLTRB(344, 26, 0, 0),
                   child: IconButton(
                     onPressed: () {
-                      fetchHeadLines(Query: search_text);
+                      search_text==''?initialFetch():fetchHeadLines(Query: search_text);
                     },
                     style: IconButton.styleFrom(
                       backgroundColor: Color(0xff2D2D2D),
@@ -105,14 +108,28 @@ class _SearchScreenState extends State<SearchScreen> {
               ],
             ),
           ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: Body['articles'].length,
-              itemBuilder: (context, index) {
-                return HomePageInfoTile(data: Body['articles'][index]);
-              },
-            ),
-          ),
+          isLoading
+              ? LoadingAnimationWidget.fourRotatingDots(
+                color: Colors.black,
+                size: 100,
+              )
+              : Body['totalResults'] != 0
+              ? Expanded(
+                child: ListView.builder(
+                  itemCount: Body['articles'].length,
+                  itemBuilder: (context, index) {
+                    return HomePageInfoTile(data: Body['articles'][index]);
+                  },
+                ),
+              )
+              : Text(
+                'no search results found',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
         ],
       ),
       bottomNavigationBar: MyBottomNavigationBar(),
@@ -120,22 +137,29 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   void fetchHeadLines({required String Query}) async {
+    isLoading = true;
     final response = await http.get(
       Uri.parse(
         'https://newsapi.org/v2/top-headlines?q=${Query}&apiKey=1d0193cb91e341b894101907e72cb1d7',
       ),
     );
-    final body = jsonDecode(response.body);
-    setState(() {
-      Body = body;
-    });
+    isLoading = false;
+    if (response.statusCode == 200) {
+      final body = jsonDecode(response.body);
+      setState(() {
+        Body = body;
+      });
+    }
   }
-  void initialFetch()async{
+
+  void initialFetch() async {
+    isLoading = true;
     final response = await http.get(
       Uri.parse(
         'https://newsapi.org/v2/top-headlines?country=us&apiKey=1d0193cb91e341b894101907e72cb1d7',
       ),
     );
+    isLoading = false;
     final body = jsonDecode(response.body);
     setState(() {
       Body = body;

@@ -5,6 +5,7 @@ import 'package:flutter_learn/widgets/bottom_navigation_bar.dart';
 import 'package:flutter_learn/widgets/home_page_widgets/home_page_app_bar.dart';
 import 'package:flutter_learn/widgets/info_tile.dart';
 import 'package:http/http.dart' as http;
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({super.key});
@@ -17,6 +18,7 @@ class _HomePageState extends State<HomePage> {
   static String selected = 'Technology';
   static const List TABS = ['Technology', 'Sports', 'Entertainment', 'Health'];
   var Body;
+  var isLoading = false;
 
   @override
   void initState() {
@@ -81,14 +83,22 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: Body['articles'].length,
-              itemBuilder: (context, index) {
-                return HomePageInfoTile(data: Body['articles'][index]);
-              },
-            ),
-          ),
+          isLoading
+              ? Padding(
+                padding: EdgeInsets.fromLTRB(0, 250, 0, 0),
+                child: LoadingAnimationWidget.fourRotatingDots(
+                  color: Colors.black,
+                  size: 100,
+                ),
+              )
+              : Expanded(
+                child: ListView.builder(
+                  itemCount: Body['articles'].length,
+                  itemBuilder: (context, index) {
+                    return HomePageInfoTile(data: Body['articles'][index]);
+                  },
+                ),
+              ),
         ],
       ),
       bottomNavigationBar: MyBottomNavigationBar(),
@@ -96,14 +106,18 @@ class _HomePageState extends State<HomePage> {
   }
 
   void fetchHeadLines({required String selected}) async {
+    isLoading = true;
     final response = await http.get(
       Uri.parse(
         'https://newsapi.org/v2/top-headlines?category=${selected}&apiKey=1d0193cb91e341b894101907e72cb1d7',
       ),
     );
-    final body = jsonDecode(response.body);
-    setState(() {
-      Body = body;
-    });
+    isLoading = false;
+    if (response.statusCode == 200) {
+      final body = jsonDecode(response.body);
+      setState(() {
+        Body = body;
+      });
+    }
   }
 }
